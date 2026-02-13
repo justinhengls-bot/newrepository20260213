@@ -1,21 +1,21 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import './App.css';
 import {
   BarChart3, TrendingUp, FileText, Mail, Truck, CreditCard,
   CheckCircle2, AlertTriangle, Clock, Play, User, Shield,
   Package, Send, Eye, Download, RefreshCw, ArrowRight,
   Zap, Target, DollarSign, Activity, Star, Search,
-  ChevronDown, ChevronRight, X, Bell, Settings, Ship,
-  Users, Globe, Award, Layers
+  X, Bell, Ship,
+  Globe, Award, Layers
 } from 'lucide-react';
 import {
-  type SKU, type Supplier, type ForecastResult, type PurchaseRequisition,
+  type ForecastResult, type PurchaseRequisition,
   type PurchaseOrder, type EmailThread, type DeliveryRecord, type Invoice,
   type AuditEntry, type ForwarderQuote,
   SKUS, SUPPLIERS, FORWARDER_QUOTES,
   generateForecast, generatePRId, generatePOId, generateInvoiceId,
   getSupplierForSKU, generateEmailThread, createAuditEntry,
-  SUPPLIER_SCORE_METRICS, generateSupplierScores, generateKPIs,
+  generateSupplierScores, generateKPIs,
   KPI_DEFINITIONS,
 } from './data/mockData';
 
@@ -218,8 +218,7 @@ function App() {
     const po = pos[0];
     const supplier = SUPPLIERS.find(s => s.id === po.supplierId)!;
     const email = generateEmailThread(
-      `Purchase Order ${po.id} — ${po.items.map(i => i.skuName).join(', ')}`,
-      'procurement@orderpilot.ai',
+      `Purchase Order ${po.id} — ${po.items.map(i => i.skuName).join(', ')}`,'procurement@orderpilot.ai',
       supplier.email,
       `Dear ${supplier.name},\n\nPlease find attached Purchase Order ${po.id}:\n\n${po.items.map(i => `• ${i.skuName}: ${i.qty} units @ ${formatCurrency(i.unitPrice)} = ${formatCurrency(i.qty * i.unitPrice)}`).join('\n')}\n\nTotal: ${formatCurrency(po.totalAmount)}\n\nPlease confirm receipt and expected delivery date.\n\n[AI Disclosure: This message was composed by an AI procurement assistant. To speak with a human, reply "ESCALATE".]\n\nBest regards,\nOrderPilot Procurement Agent`,
       'confirmation',
